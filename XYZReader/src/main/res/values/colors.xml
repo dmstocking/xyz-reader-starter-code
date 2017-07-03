@@ -16,6 +16,10 @@
 -->
 
 <resources>
+
+    <color name="black_00">#00000000</color>
+    <color name="black_54">#8A000000</color>
+
     <color name="photo_placeholder">#ccc</color>
 
     <color name="theme_primary">@color/md_deep_purple_500</color>
