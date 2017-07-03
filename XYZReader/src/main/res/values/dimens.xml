@@ -1,4 +1,8 @@
 <resources>
+
+    <dimen name="large_spacer">16dp</dimen>
+    <dimen name="huge_spacer">32dp</dimen>
+    <dimen name="giant_spacer">64dp</dimen>
     <!-- detail -->
     <dimen name="detail_title_text_size">32sp</dimen>
     <dimen name="detail_body_text_size">22sp</dimen>
