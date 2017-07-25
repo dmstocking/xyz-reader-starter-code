@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -51,6 +52,7 @@ public class ArticleDetailActivity extends AppCompatActivity
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.pager) ViewPager mPager;
     @BindView(R.id.photo) ImageView imageView;
+    @BindView(R.id.share) FloatingActionButton share;
     private String title;
 
     @Override
@@ -78,6 +80,16 @@ public class ArticleDetailActivity extends AppCompatActivity
             }
         });
 
+        share.setOnClickListener(ignored -> {
+            // So honestly I don't know what we are supposed to share. I would normally do a url
+            // but sense we do not have one, I will share the title.
+            startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
+                                                       .setType("text/plain")
+                                                       .setText(title)
+                                                       .getIntent(),
+                                               getString(R.string.action_share)));
+        });
+
         if (savedInstanceState != null) {
             mStartId = savedInstanceState.getLong("id", 0);
         } else  if (getIntent() != null && getIntent().getData() != null) {
@@ -89,29 +101,6 @@ public class ArticleDetailActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("id", mStartId);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = new MenuInflater(this);
-        menuInflater.inflate(R.menu.detail, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share: {
-                // So honestly I don't know what we are supposed to share. I would normally do a url
-                // but sense we do not have one, I will share the title.
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
-                                                           .setType("text/plain")
-                                                           .setText(title)
-                                                           .getIntent(),
-                                                   getString(R.string.action_share)));
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
