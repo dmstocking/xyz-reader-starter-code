@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -185,6 +187,10 @@ public class ArticleListActivity extends AppCompatActivity
             } else {
                 holder.timestamp.setText(outputFormat.format(publishedDate));
             }
+            ConstraintSet cs = new ConstraintSet();
+            cs.clone(holder.constraintLayout);
+            cs.setDimensionRatio(R.id.thumbnail, mCursor.getString(ArticleLoader.Query.ASPECT_RATIO));
+            cs.applyTo(holder.constraintLayout);
             Picasso.with(ArticleListActivity.this)
                     .load(mCursor.getString(ArticleLoader.Query.PHOTO_URL))
                     .into(holder.portrait);
@@ -206,6 +212,7 @@ public class ArticleListActivity extends AppCompatActivity
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ConstraintLayout constraintLayout;
         public ImageView portrait;
         public TextView author;
         public TextView timestamp;
@@ -215,6 +222,7 @@ public class ArticleListActivity extends AppCompatActivity
 
         public ViewHolder(View view) {
             super(view);
+            constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
             portrait = (ImageView) view.findViewById(R.id.portrait);
             author = (TextView) view.findViewById(R.id.author);
             timestamp = (TextView) view.findViewById(R.id.timestamp);
